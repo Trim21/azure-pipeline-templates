@@ -1,5 +1,7 @@
 parameters:
   python_version: "3.6" # defaults for any parameters that aren't specified
+  extras: [] # poetry extra deps to install
+  poetry_version: "1.0.5"
 
 steps:
   - task: UsePythonVersion@0
@@ -26,7 +28,12 @@ steps:
     displayName: Cache pip
 
   - bash: |
-      curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version 1.0.5
+      curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
       poetry config virtualenvs.in-project true
-      poetry install -E docs
-    displayName: Install Packages
+      EXTRAS="${{ join(parameters.extras, ' ') }}"
+      if [[ -z "$EXTRAS" ]];then
+        poetry install
+      else
+        poetry install --extras "$EXTRAS"
+      fi
+    displayName: Install Poetry
