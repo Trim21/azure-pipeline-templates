@@ -1,0 +1,15 @@
+variables:
+  PRE_COMMIT_HOME: $(Pipeline.Workspace)/pre-commit-cache
+
+steps:
+    - task: Cache@2
+      inputs:
+        key: '"pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml'
+        restoreKeys: |
+          "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml
+          "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)"
+        path: $(PRE_COMMIT_HOME)
+      displayName: Cache Pre-commit
+
+    - script: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
+      displayName: run pre-commit
