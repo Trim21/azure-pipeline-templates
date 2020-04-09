@@ -16,15 +16,29 @@ jobs:
       matrix:
         Python36:
           python.version: "3.6"
+          poetry.version: ""
         Python37:
           python.version: "3.7"
+          poetry.version: ""
         Python38:
           python.version: "3.8"
+          poetry.version: ""
+
+        Python36-poetry-1.0.5:
+          python.version: "3.6"
+          poetry.version: "1.0.5"
+        Python37-poetry-1.0.5:
+          python.version: "3.7"
+          poetry.version: "1.0.5"
+        Python38-poetry-1.0.5:
+          python.version: "3.8"
+          poetry.version: "1.0.5"
 
     steps:
       - template: python/install-poetry-project.yaml
         parameters:
           python_version: $(python.version)
+          poetry_version: $(poetry.version)
           extras: [ pre_commit ]
 
       - template: python/pre-commit.yaml

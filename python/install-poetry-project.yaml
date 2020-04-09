@@ -1,7 +1,7 @@
 parameters:
   python_version: "3.6" # defaults for any parameters that aren't specified
   extras: [] # poetry extra deps to install
-  poetry_version: "1.0.5"
+  poetry_version: ""
 
 steps:
   - task: UsePythonVersion@0
@@ -20,15 +20,19 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "1" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
+      key: '"pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
       restoreKeys: |
-        "pip" | "1" | "$(Agent.OS)" | "$(PY)" | poetry.lock
-        "pip" | "1" | "$(Agent.OS)" | "$(PY)"
+        "pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)" | poetry.lock
+        "pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)"
       path: $(Build.Repository.LocalPath)/.venv
     displayName: Cache pip
 
   - bash: |
-      curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
+      if [[ -z "${{ parameters.poetry_version }}" ]];then
+        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+      else
+        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
+      fi
       poetry config virtualenvs.in-project true
       if [[ -z "$EXTRAS" ]];then
         poetry install
