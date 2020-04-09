@@ -1,0 +1,18 @@
+# specific branch build with batching
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+    exclude:
+      - "renovate/*"
+
+stages:
+  - stage: Lint
+    jobs:
+      - template: python/install-poetry-project.yaml
+        parameters:
+          python_version: '3.8'
+          extras: [ pre_commit ]
+
+      - template: python/pre-commit.yaml

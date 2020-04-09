@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-docstring-first
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-json
+      # check for file bigger than 500kb
+      - id: check-added-large-files
+      - id: check-yaml
+
+  - repo: https://github.com/Trim21/poetry-check-lock
+    rev: v0.0.2
+    hooks:
+      - id: poetry-check-lock
