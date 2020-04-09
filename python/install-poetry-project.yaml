@@ -30,7 +30,6 @@ steps:
   - bash: |
       curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
       poetry config virtualenvs.in-project true
-      echo "'$EXTRAS'"
       if [[ -z "$EXTRAS" ]];then
         poetry install
       else
