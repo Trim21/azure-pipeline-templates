@@ -38,4 +38,4 @@ steps:
       fi
     displayName: Install Packages
     env:
-      EXTRAS: ${{ join(parameters.extras, ' ') }}
+      EXTRAS: ${{ join(' ', parameters.extras) }}
