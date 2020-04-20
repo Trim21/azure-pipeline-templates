@@ -11,29 +11,36 @@ steps:
   - bash: |
       echo "##vso[task.setvariable variable=PY]$(python -VV)"
       if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
-        echo "##vso[task.prependpath]$PWD/.venv/Scripts"
+        echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/Scripts"
       else
-        echo "##vso[task.prependpath]$PWD/.venv/bin"
+        echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/bin"
       fi
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
     displayName: set env variables
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
+      key: '"pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
       restoreKeys: |
-        "pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)" | poetry.lock
-        "pip" | "0.0.1" | "$(Agent.OS)" | "$(PY)"
-      path: $(Build.Repository.LocalPath)/.venv
+        "pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)" | poetry.lock
+        "pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)"
+      path: $(Pipeline.Workspace)/venv
     displayName: Cache pip
 
   - bash: |
+      cd $(Pipeline.Workspace)
+      python -m venv venv
+      if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
+        source venv/Scripts/activate
+      else
+        source venv/bin/activate
+      fi
+      cd $(Build.Repository.LocalPath)
       if [[ -z "${{ parameters.poetry_version }}" ]];then
         curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
       else
         curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
       fi
-      poetry config virtualenvs.in-project true
       if [[ -z "$EXTRAS" ]];then
         poetry install
       else
