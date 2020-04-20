@@ -22,7 +22,6 @@ steps:
     inputs:
       key: '"pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
       restoreKeys: |
-        "pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)" | poetry.lock
         "pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)"
       path: $(Pipeline.Workspace)/venv
     displayName: Cache pip
