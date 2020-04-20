@@ -1,14 +1,17 @@
 steps:
-    - task: Cache@2
-      inputs:
-        key: '"pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml'
-        restoreKeys: |
-          "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml
-          "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)"
-        path: $(Pipeline.Workspace)/pre-commit-cache
+  - bash: echo "##vso[task.setvariable variable=PY]$(python -VV)"
+    displayName: set env variables
+
+  - task: Cache@2
+    inputs:
+      key: '"pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml'
+      restoreKeys: |
+        "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml
+        "pre-commit" | "1" | "$(Agent.OS)" | "$(PY)"
+      path: $(Pipeline.Workspace)/pre-commit-cache
       displayName: Cache Pre-commit
 
-    - script: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
-      displayName: run pre-commit
-      env:
-        PRE_COMMIT_HOME: $(Pipeline.Workspace)/pre-commit-cache
+  - script: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
+    displayName: run pre-commit
+    env:
+      PRE_COMMIT_HOME: $(Pipeline.Workspace)/pre-commit-cache
