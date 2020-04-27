@@ -9,7 +9,7 @@ steps:
       versionSpec: "${{ parameters.python_version }}"
 
   - bash: |
-      echo "##vso[task.setvariable variable=PY]$(python -VV | paste -sd '' -)"
+      echo "##vso[task.setvariable variable=PY]$(python -VV | paste -s)"
       if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
         echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/Scripts"
       else
@@ -20,21 +20,25 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
+      key: '"pip" | "1" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
       restoreKeys: |
-        "pip" | "0.0.2" | "$(Agent.OS)" | "$(PY)"
+        "pip" | "1" | "$(Agent.OS)" | "$(PY)"
       path: $(Pipeline.Workspace)/venv
+      cacheHitVar: CACHE_RESTORED
     displayName: Cache pip
 
+  - script: python -m venv venv
+    condition: ne(variables.CACHE_RESTORED, 'true')
+    displayName: Create Virtualenv
+    workingDirectory: $(Pipeline.Workspace)
+
   - bash: |
-      cd $(Pipeline.Workspace)
-      python -m venv venv
       if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
-        source venv/Scripts/activate
+        source $(Pipeline.Workspace)/venv/Scripts/activate
       else
-        source venv/bin/activate
+        source $(Pipeline.Workspace)/venv/bin/activate
       fi
-      cd $(Build.Repository.LocalPath)
+
       if [[ -z "${{ parameters.poetry_version }}" ]];then
         curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
       else
