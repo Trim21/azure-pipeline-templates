@@ -5,26 +5,26 @@
 <a name="v0.0.4"></a>
 ## [v0.0.4] - 2020-04-28
 ### Docs
-- **readme:** update version
+- **readme:** update version ([9725ac7](https://github.com/Trim21/azure-pipeline-templates/commit/9725ac7843927c99506b5327e861082ca6406967))
 
 ### Refactor
-- don't create venv when cache hit
-- remove useless cache restore key
+- don't create venv when cache hit ([a962c31](https://github.com/Trim21/azure-pipeline-templates/commit/a962c31272dfc5df0f63f7a692cdc7125c6cbe3b))
+- remove useless cache restore key ([85dcb32](https://github.com/Trim21/azure-pipeline-templates/commit/85dcb32edf9827cd0e6d4ce7b0ba7a7e595f2dea))
 
 
 <a name="v0.0.3"></a>
 ## [v0.0.3] - 2020-04-21
 ### Docs
-- **changelog:** add changelog
+- **changelog:** add changelog ([081561f](https://github.com/Trim21/azure-pipeline-templates/commit/081561ff1fd81c201b520eb7a7fda4b3d21a0ac1))
 
 ### Feat
-- pre-commit template could used standalone
+- pre-commit template could used standalone ([a03f499](https://github.com/Trim21/azure-pipeline-templates/commit/a03f499016d94c3125ab263a8cca0f8055932e77))
 
 ### Fix
-- use venv outside source dir
+- use venv outside source dir ([ffb9992](https://github.com/Trim21/azure-pipeline-templates/commit/ffb9992a2b2947c296de790601a7bf49b6958a4d))
 
 ### Refactor
-- join python version output line
+- join python version output line ([8ecb12f](https://github.com/Trim21/azure-pipeline-templates/commit/8ecb12f3c7169e2a8aaffa043d831c6ebeb7deef))
 
 
 <a name="v0.0.2"></a>
