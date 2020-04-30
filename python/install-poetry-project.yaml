@@ -15,9 +15,9 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "1" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
+      key: '"pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
       restoreKeys: |
-        "pip" | "1" | "$(Agent.OS)" | "$(PY)"
+        "pip" | "2" | "$(Agent.OS)" | "$(PY)"
       path: $(Pipeline.Workspace)/venv
       cacheHitVar: CACHE_RESTORED
     displayName: Cache pip

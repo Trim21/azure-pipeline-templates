@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.0.5"></a>
+## [v0.0.5] - 2020-04-30
+### Docs
+- **changelog:** add commit hash ([59ef6ef](https://github.com/Trim21/azure-pipeline-templates/commit/59ef6ef4353ed28b79b7ac8ac37e8e73df22497c))
+
+### Fix
+- works on windows ([f573fb7](https://github.com/Trim21/azure-pipeline-templates/commit/f573fb76b697aad9f97543494a562f4595169c66))
+
+
 <a name="v0.0.4"></a>
 ## [v0.0.4] - 2020-04-28
 ### Docs
@@ -33,7 +42,8 @@
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2020-04-09
 
-[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.5...HEAD
+[v0.0.5]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.4...v0.0.5
 [v0.0.4]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.1...v0.0.2
