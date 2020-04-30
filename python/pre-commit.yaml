@@ -1,5 +1,5 @@
 steps:
-  - bash: echo "##vso[task.setvariable variable=PY]$(python -VV | paste -s)"
+  - bash: echo "##vso[task.setvariable variable=PY]$(python -VV)"
     displayName: set env variables
 
   - task: Cache@2

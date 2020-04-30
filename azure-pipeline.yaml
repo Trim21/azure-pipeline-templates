@@ -10,35 +10,40 @@ trigger:
 jobs:
   - job: "Test"
     pool:
-      vmImage: "ubuntu-latest"
+      vmImage: '$(os)'
 
     strategy:
       matrix:
-        Python36:
+        Python36-windows:
+          os: "vs2017-win2016"
           python.version: "3.6"
           poetry.version: ""
-        Python37:
-          python.version: "3.7"
+
+        Python36-Macos:
+          os: 'macos-latest'
+          python.version: '3.6'
           poetry.version: ""
-        Python38:
-          python.version: "3.8"
+
+        Python36-ubuntu:
+          os: 'ubuntu-latest'
+          python.version: "3.6"
           poetry.version: ""
 
         Python36-poetry-1.0.5:
+          os: 'ubuntu-latest'
           python.version: "3.6"
-          poetry.version: "1.0.5"
-        Python37-poetry-1.0.5:
-          python.version: "3.7"
-          poetry.version: "1.0.5"
-        Python38-poetry-1.0.5:
-          python.version: "3.8"
           poetry.version: "1.0.5"
 
     steps:
+      - script: git config --global core.autocrlf false
+        displayName: $(System.JobName) git config core.autocrlf
+
+      - checkout: self
+
       - template: python/install-poetry-project.yaml
         parameters:
-          python_version: $(python.version)
-          poetry_version: $(poetry.version)
+          python_version: '$(python.version)'
+          poetry_version: '$(poetry.version)'
           extras: [ pre_commit ]
 
       - template: python/pre-commit.yaml

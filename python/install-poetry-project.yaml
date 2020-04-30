@@ -9,12 +9,7 @@ steps:
       versionSpec: "${{ parameters.python_version }}"
 
   - bash: |
-      echo "##vso[task.setvariable variable=PY]$(python -VV | paste -s)"
-      if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
-        echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/Scripts"
-      else
-        echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/bin"
-      fi
+      echo "##vso[task.setvariable variable=PY]$(python -VV)"
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
     displayName: set env variables
 
@@ -33,22 +28,43 @@ steps:
     workingDirectory: $(Pipeline.Workspace)
 
   - bash: |
-      if [[ "$(Agent.OS)" == 'Windows_NT' ]];then
-        source $(Pipeline.Workspace)/venv/Scripts/activate
+      if [[ -z "${POETRY_VERSION}" ]];then
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
       else
-        source $(Pipeline.Workspace)/venv/bin/activate
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --version "${POETRY_VERSION}"
       fi
+    displayName: Install poetry
+    env:
+      POETRY_VERSION: ${{ parameters.poetry_version }}
 
-      if [[ -z "${{ parameters.poetry_version }}" ]];then
-        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-      else
-        curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python - --version "${{ parameters.poetry_version }}"
-      fi
+  - powershell: |
+      Write-Host "##vso[task.prependpath]$(Pipeline.Workspace)\venv\Scripts"
+
+      cd $(Pipeline.Workspace)
+      .\venv\Scripts\Activate.ps1
+
+      cd $(Build.SourcesDirectory)
+
+      if( "$env:EXTRAS" -eq "" ){
+          ~/.poetry/bin/poetry.bat install
+      }else{
+          ~/.poetry/bin/poetry.bat install --extras "$env:EXTRAS"
+      }
+
+    displayName: Install Packages on Windows
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
+    env:
+      EXTRAS: ${{ join(' ', parameters.extras) }}
+
+  - bash: |
+      echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/bin"
+      source $(Pipeline.Workspace)/venv/bin/activate
       if [[ -z "$EXTRAS" ]];then
         poetry install
       else
         poetry install --extras "$EXTRAS"
       fi
-    displayName: Install Packages
+    displayName: Install Packages on *nix
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
     env:
       EXTRAS: ${{ join(' ', parameters.extras) }}
