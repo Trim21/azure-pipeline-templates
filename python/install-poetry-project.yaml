@@ -9,18 +9,22 @@ steps:
       versionSpec: "${{ parameters.python_version }}"
 
   - bash: |
+      echo EXTRAS=$(python -c "import os;print(','.join(sorted(set(os.getenv('EXTRAS', '').split(',')))))")
+      echo "##vso[task.setvariable variable=EXTRAS]$EXTRAS"
       echo "##vso[task.setvariable variable=PY]$(python -VV)"
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
     displayName: set env variables
+    env:
+      EXTRAS: ${{ join(' ', parameters.extras) }}
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock'
+      key: '"pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock | "$(EXTRAS)"'
       restoreKeys: |
-        "pip" | "2" | "$(Agent.OS)" | "$(PY)"
+        "pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock
       path: $(Pipeline.Workspace)/venv
       cacheHitVar: CACHE_RESTORED
-    displayName: Cache pip
+    displayName: Cache Python Packages
 
   - script: python -m venv venv
     condition: ne(variables.CACHE_RESTORED, 'true')
@@ -53,8 +57,6 @@ steps:
 
     displayName: Install Packages on Windows
     condition: eq(variables['Agent.OS'], 'Windows_NT')
-    env:
-      EXTRAS: ${{ join(' ', parameters.extras) }}
 
   - bash: |
       echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/bin"
@@ -66,5 +68,3 @@ steps:
       fi
     displayName: Install Packages on *nix
     condition: ne(variables['Agent.OS'], 'Windows_NT')
-    env:
-      EXTRAS: ${{ join(' ', parameters.extras) }}

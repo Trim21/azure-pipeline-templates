@@ -47,3 +47,36 @@ jobs:
           extras: [ pre_commit ]
 
       - template: python/pre-commit.yaml
+  - job: "Test_without_extras"
+    pool:
+      vmImage: '$(os)'
+
+    strategy:
+      matrix:
+        Python36-windows:
+          os: "vs2017-win2016"
+          python.version: "3.6"
+          poetry.version: ""
+
+        Python36-Macos:
+          os: 'macos-latest'
+          python.version: '3.6'
+          poetry.version: ""
+
+        Python36-ubuntu:
+          os: 'ubuntu-latest'
+          python.version: "3.6"
+          poetry.version: ""
+
+        Python36-poetry-1.0.5:
+          os: 'ubuntu-latest'
+          python.version: "3.6"
+          poetry.version: "1.0.5"
+
+    steps:
+      - template: python/install-poetry-project.yaml
+        parameters:
+          python_version: '$(python.version)'
+          poetry_version: '$(poetry.version)'
+
+      - script: python -c "import requests"
