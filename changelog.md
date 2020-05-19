@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.0.6"></a>
+## [v0.0.6] - 2020-05-20
+### Chore
+- pre-cache cache displayName ([3182229](https://github.com/Trim21/azure-pipeline-templates/commit/3182229543b5ba378bd690e3380408c42912622f))
+
+### Feat
+- cache with poetry extras ([f9f8bf5](https://github.com/Trim21/azure-pipeline-templates/commit/f9f8bf5850ccda3ac0bbda7405364bf5aa402abd))
+
+
 <a name="v0.0.5"></a>
 ## [v0.0.5] - 2020-04-30
 ### Docs
@@ -42,7 +51,8 @@
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2020-04-09
 
-[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.6...HEAD
+[v0.0.6]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.5...v0.0.6
 [v0.0.5]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.4...v0.0.5
 [v0.0.4]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.2...v0.0.3
