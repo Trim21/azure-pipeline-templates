@@ -3,12 +3,12 @@ steps:
     displayName: set env variables
 
   - task: Cache@2
+    displayName: Cache Pre-commit
     inputs:
       key: '"pre-commit" | "2" | "$(Agent.OS)" | "$(PY)" | .pre-commit-config.yaml'
       restoreKeys: |
         "pre-commit" | "2" | "$(Agent.OS)" | "$(PY)"
       path: $(Pipeline.Workspace)/pre-commit-cache
-      displayName: Cache Pre-commit
 
   - script: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
     displayName: run pre-commit
