@@ -21,6 +21,7 @@ steps:
     inputs:
       key: '"pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock | "$(EXTRAS)"'
       restoreKeys: |
+        "pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock | ""
         "pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock
       path: $(Pipeline.Workspace)/venv
       cacheHitVar: CACHE_RESTORED
