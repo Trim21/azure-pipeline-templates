@@ -7,7 +7,7 @@ resources:
       type: github
       endpoint: github
       name: Trim21/azure-pipeline-templates
-      ref: refs/tags/v0.0.6
+      ref: refs/tags/v0.0.7
 ```
 
 job:

@@ -2,6 +2,18 @@
 ## [Unreleased]
 
 
+<a name="v0.0.7"></a>
+## [v0.0.7] - 2020-05-21
+### Chore
+- join multi line python version info ([90a3af1](https://github.com/Trim21/azure-pipeline-templates/commit/90a3af11c7c874e24027c7bb3d94e3341e00fde4))
+
+### Feat
+- **poetry:** cache poetry ([898de81](https://github.com/Trim21/azure-pipeline-templates/commit/898de8105c534f99f7b70eb967d64f4e0d9c84ca))
+
+### Refactor
+- restore cache from non extras ([a6fce8d](https://github.com/Trim21/azure-pipeline-templates/commit/a6fce8d7e8bc382b57a20e8854b4288235a25fde))
+
+
 <a name="v0.0.6"></a>
 ## [v0.0.6] - 2020-05-20
 ### Chore
@@ -51,7 +63,8 @@
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2020-04-09
 
-[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.7...HEAD
+[v0.0.7]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.6...v0.0.7
 [v0.0.6]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.5...v0.0.6
 [v0.0.5]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.4...v0.0.5
 [v0.0.4]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.3...v0.0.4
