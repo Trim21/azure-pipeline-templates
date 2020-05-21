@@ -1,5 +1,7 @@
 steps:
-  - bash: echo "##vso[task.setvariable variable=PY]$(python -VV)"
+  - bash: |
+      PYV=$(python -c "import sys;print(''.join(sys.version.splitlines()))")
+      echo "##vso[task.setvariable variable=PY]$PYV"
     displayName: set env variables
 
   - task: Cache@2
