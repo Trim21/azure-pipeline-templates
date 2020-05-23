@@ -232,7 +232,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 pre_commit = ["pre-commit"]
 
 [metadata]
-content-hash = "98de77fb79e1a6491a59a36bc2439b04f4141c2a582d3713cb8a897e06349738"
+content-hash = "ad94d6682c16e1ca79c4d967e377e75176aadc587f9923bbff2650cf5ca40dd3"
 python-versions = "^3.6.1"
 
 [metadata.files]
