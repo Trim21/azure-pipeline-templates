@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "@trim21",
+    "@trim21:app",
+    "@trim21:monthly"
+  ]
+}
