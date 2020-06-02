@@ -21,6 +21,7 @@ steps:
 
       POETRY_HOME=$(python -c 'from os import path;print(path.normpath(path.expanduser("~/.poetry")))')
       echo "##vso[task.setvariable variable=POETRY_HOME]$POETRY_HOME"
+      echo "##vso[task.setvariable variable=PYTHONUSERBASE]$(Pipeline.Workspace)/.py"
 
     displayName: set env variables
     env:
@@ -41,39 +42,35 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: '"pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock | "$(EXTRAS)"'
+      key: '"pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock | "$(EXTRAS)"'
       restoreKeys: |
-        "pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock | ""
-        "pip" | "2" | "$(Agent.OS)" | "$(PY)" | poetry.lock
-      path: $(Pipeline.Workspace)/venv
+        "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock | ""
+        "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock
+      path: $(Pipeline.Workspace)/.py
       cacheHitVar: CACHE_RESTORED
     displayName: Cache Python Packages
 
-  - script: python -m venv venv
-    condition: ne(variables.CACHE_RESTORED, 'true')
-    displayName: Create Virtualenv
-    workingDirectory: $(Pipeline.Workspace)
 
   - powershell: |
-      Write-Host "##vso[task.prependpath]$(Pipeline.Workspace)\venv\Scripts"
-
-      cd $(Pipeline.Workspace)
-      .\venv\Scripts\Activate.ps1
-
-      cd $(Build.SourcesDirectory)
-
       if( "$env:EXTRAS" -eq "" ){
           ~/.poetry/bin/poetry.bat install
       }else{
           ~/.poetry/bin/poetry.bat install --extras "$env:EXTRAS"
       }
 
+      $files = Get-ChildItem -Path $(Pipeline.Workspace)\.py
+      foreach ($file in $files) {
+          Write-Host "##vso[task.prependpath]$(Pipeline.Workspace)\.py\$file\Scripts"
+      }
+
     displayName: Install Packages on Windows
     condition: eq(variables['Agent.OS'], 'Windows_NT')
+    env:
+      PIP_USER: '1'
+      POETRY_VIRTUALENVS_CREATE: 'false'
 
   - bash: |
-      echo "##vso[task.prependpath]$(Pipeline.Workspace)/venv/bin"
-      source $(Pipeline.Workspace)/venv/bin/activate
+      echo "##vso[task.prependpath]$(Pipeline.Workspace)/.py/bin"
       if [[ -z "$EXTRAS" ]];then
         poetry install
       else
@@ -81,3 +78,6 @@ steps:
       fi
     displayName: Install Packages on *nix
     condition: ne(variables['Agent.OS'], 'Windows_NT')
+    env:
+      PIP_USER: '1'
+      POETRY_VIRTUALENVS_CREATE: 'false'
