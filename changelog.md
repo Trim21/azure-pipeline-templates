@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.0.9"></a>
+## [v0.0.9] - 2020-06-08
+### Bug Fixes
+- poetry not in path on windows ([9d47791](https://github.com/Trim21/azure-pipeline-templates/commit/9d477913aa42fc681f46a33e097b0d81bbfe2e6d))
+
+
 <a name="v0.0.8"></a>
 ## [v0.0.8] - 2020-06-02
 ### Code Refactoring
@@ -54,7 +60,8 @@
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2020-04-09
 
-[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.9...HEAD
+[v0.0.9]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.8...v0.0.9
 [v0.0.8]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.7...v0.0.8
 [v0.0.7]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.6...v0.0.7
 [v0.0.6]: https://github.com/Trim21/azure-pipeline-templates/compare/v0.0.5...v0.0.6
