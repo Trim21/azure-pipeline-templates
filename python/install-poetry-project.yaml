@@ -50,7 +50,6 @@ steps:
       cacheHitVar: CACHE_RESTORED
     displayName: Cache Python Packages
 
-
   - powershell: |
       if( "$env:EXTRAS" -eq "" ){
           ~/.poetry/bin/poetry.bat install
@@ -62,12 +61,13 @@ steps:
       foreach ($file in $files) {
           Write-Host "##vso[task.prependpath]$(Pipeline.Workspace)\.py\$file\Scripts"
       }
+      Write-Host "##vso[task.prependpath]$HOME\.poetry\bin"
 
     displayName: Install Packages on Windows
     condition: eq(variables['Agent.OS'], 'Windows_NT')
     env:
-      PIP_USER: '1'
-      POETRY_VIRTUALENVS_CREATE: 'false'
+      PIP_USER: "1"
+      POETRY_VIRTUALENVS_CREATE: "false"
 
   - bash: |
       echo "##vso[task.prependpath]$(Pipeline.Workspace)/.py/bin"
@@ -79,5 +79,5 @@ steps:
     displayName: Install Packages on *nix
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     env:
-      PIP_USER: '1'
-      POETRY_VIRTUALENVS_CREATE: 'false'
+      PIP_USER: "1"
+      POETRY_VIRTUALENVS_CREATE: "false"

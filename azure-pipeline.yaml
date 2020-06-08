@@ -10,7 +10,7 @@ trigger:
 jobs:
   - job: "Test"
     pool:
-      vmImage: '$(os)'
+      vmImage: "$(os)"
 
     strategy:
       matrix:
@@ -20,17 +20,17 @@ jobs:
           poetry.version: ""
 
         Python36-Macos:
-          os: 'macos-latest'
-          python.version: '3.6'
+          os: "macos-latest"
+          python.version: "3.6"
           poetry.version: ""
 
         Python36-ubuntu:
-          os: 'ubuntu-latest'
+          os: "ubuntu-latest"
           python.version: "3.6"
           poetry.version: ""
 
         Python36-poetry-1.0.5:
-          os: 'ubuntu-latest'
+          os: "ubuntu-latest"
           python.version: "3.6"
           poetry.version: "1.0.5"
 
@@ -42,14 +42,15 @@ jobs:
 
       - template: python/install-poetry-project.yaml
         parameters:
-          python_version: '$(python.version)'
-          poetry_version: '$(poetry.version)'
-          extras: [ pre_commit ]
-
+          python_version: "$(python.version)"
+          poetry_version: "$(poetry.version)"
+          extras: [pre_commit]
       - template: python/pre-commit.yaml
+      - script: poetry --version
+
   - job: "Test_without_extras"
     pool:
-      vmImage: '$(os)'
+      vmImage: "$(os)"
 
     strategy:
       matrix:
@@ -59,24 +60,25 @@ jobs:
           poetry.version: ""
 
         Python36-Macos:
-          os: 'macos-latest'
-          python.version: '3.6'
+          os: "macos-latest"
+          python.version: "3.6"
           poetry.version: ""
 
         Python36-ubuntu:
-          os: 'ubuntu-latest'
+          os: "ubuntu-latest"
           python.version: "3.6"
           poetry.version: ""
 
         Python36-poetry-1.0.5:
-          os: 'ubuntu-latest'
+          os: "ubuntu-latest"
           python.version: "3.6"
           poetry.version: "1.0.5"
 
     steps:
       - template: python/install-poetry-project.yaml
         parameters:
-          python_version: '$(python.version)'
-          poetry_version: '$(poetry.version)'
+          python_version: "$(python.version)"
+          poetry_version: "$(poetry.version)"
 
       - script: python -c "import requests"
+      - script: poetry --version
