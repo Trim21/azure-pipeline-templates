@@ -7,7 +7,7 @@ authors = ["Trim21 <i@trim21.me>"]
 [tool.poetry.dependencies]
 python = "^3.6.1"
 pre-commit = { version = "==2.5.1", optional = true}
-requests = "2.23.0"
+requests = "==2.24.0"
 
 [tool.poetry.extras]
 pre_commit = [
