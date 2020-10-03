@@ -46,15 +46,16 @@ steps:
       restoreKeys: |
         "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock | ""
         "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock
+        "pip" | "3" | "$(Agent.OS)" | "$(PY)"
       path: $(Pipeline.Workspace)/.py
       cacheHitVar: CACHE_RESTORED
     displayName: Cache Python Packages
 
   - powershell: |
       if( "$env:EXTRAS" -eq "" ){
-          ~/.poetry/bin/poetry.bat install
+          ~/.poetry/bin/poetry.bat install --remove-untracked
       }else{
-          ~/.poetry/bin/poetry.bat install --extras "$env:EXTRAS"
+          ~/.poetry/bin/poetry.bat install --remove-untracked --extras "$env:EXTRAS"
       }
 
       $files = Get-ChildItem -Path $(Pipeline.Workspace)\.py
@@ -72,9 +73,9 @@ steps:
   - bash: |
       echo "##vso[task.prependpath]$(Pipeline.Workspace)/.py/bin"
       if [[ -z "$EXTRAS" ]];then
-        poetry install
+        poetry install --remove-untracked
       else
-        poetry install --extras "$EXTRAS"
+        poetry install --extras "$EXTRAS" --remove-untracked
       fi
     displayName: Install Packages on *nix
     condition: ne(variables['Agent.OS'], 'Windows_NT')

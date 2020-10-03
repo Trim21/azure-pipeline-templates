@@ -1,18 +1,16 @@
 [tool.poetry]
 name = "azure-pipeline-templates"
-version = "0.1.0"
+version = "0.0.9"
 description = ""
 authors = ["Trim21 <i@trim21.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-pre-commit = { version = "==2.5.1", optional = true}
+pre-commit = { version = "==2.5.1", optional = true }
 requests = "==2.24.0"
 
 [tool.poetry.extras]
-pre_commit = [
-  'pre-commit',
-]
+pre_commit = ['pre-commit']
 
 [tool.poetry.dev-dependencies]
 
