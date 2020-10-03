@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "azure-pipeline-templates"
-version = "0.0.9"
+version = "0.1.0"
 description = ""
 authors = ["Trim21 <i@trim21.me>"]
 
