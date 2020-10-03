@@ -1,3 +1,7 @@
+# a set of template for using poetry and pre-commit in azure pipeline
+
+require poetry>=1.1.0
+
 azure-pipeline.yaml:
 
 ```yaml
