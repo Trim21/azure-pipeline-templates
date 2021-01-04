@@ -1,4 +1,11 @@
 repos:
+  - repo: https://github.com/Trim21/pre-commit-hooks
+    rev: 5685ac183889dcafd0ea6c9dc3df211274554ec2  # frozen: v0.2.2
+    hooks:
+      - id: yamlfmt
+      - id: poetry-check-lock
+      - id: find-trailing-comma
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.5.0
     hooks:
@@ -12,8 +19,3 @@ repos:
       # check for file bigger than 500kb
       - id: check-added-large-files
       - id: check-yaml
-
-  - repo: https://github.com/Trim21/poetry-check-lock
-    rev: v0.0.2
-    hooks:
-      - id: poetry-check-lock
