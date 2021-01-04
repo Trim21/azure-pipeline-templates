@@ -29,10 +29,10 @@ jobs:
           python.version: "3.6"
           poetry.version: ""
 
-        Python36-poetry-1.0.5:
+        Python36-poetry-1.1.0:
           os: "ubuntu-latest"
           python.version: "3.6"
-          poetry.version: "1.0.5"
+          poetry.version: "1.1.0"
 
     steps:
       - script: git config --global core.autocrlf false
@@ -69,7 +69,7 @@ jobs:
           python.version: "3.6"
           poetry.version: ""
 
-        Python36-poetry-1.0.5:
+        Python36-poetry-1.1.0:
           os: "ubuntu-latest"
           python.version: "3.6"
           poetry.version: "1.1.0"
