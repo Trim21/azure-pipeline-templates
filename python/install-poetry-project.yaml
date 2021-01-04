@@ -21,7 +21,6 @@ steps:
 
       POETRY_HOME=$(python -c 'from os import path;print(path.normpath(path.expanduser("~/.poetry")))')
       echo "##vso[task.setvariable variable=POETRY_HOME]$POETRY_HOME"
-      echo "##vso[task.setvariable variable=PYTHONUSERBASE]$(Pipeline.Workspace)/.py"
 
     displayName: set env variables
     env:
@@ -47,9 +46,12 @@ steps:
         "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock | ""
         "pip" | "3" | "$(Agent.OS)" | "$(PY)" | poetry.lock
         "pip" | "3" | "$(Agent.OS)" | "$(PY)"
-      path: $(Pipeline.Workspace)/.py
+      path: .venv
       cacheHitVar: CACHE_RESTORED
     displayName: Cache Python Packages
+
+  - bash: poetry config virtualenvs.in-project true
+    displayName: config poetry
 
   - powershell: |
       if( "$env:EXTRAS" -eq "" ){
@@ -58,20 +60,14 @@ steps:
           ~/.poetry/bin/poetry.bat install --remove-untracked --extras "$env:EXTRAS"
       }
 
-      $files = Get-ChildItem -Path $(Pipeline.Workspace)\.py
-      foreach ($file in $files) {
-          Write-Host "##vso[task.prependpath]$(Pipeline.Workspace)\.py\$file\Scripts"
-      }
+      Write-Host "##vso[task.prependpath]$pwd\.venv\Scripts"
       Write-Host "##vso[task.prependpath]$HOME\.poetry\bin"
 
     displayName: Install Packages on Windows
     condition: eq(variables['Agent.OS'], 'Windows_NT')
-    env:
-      PIP_USER: "1"
-      POETRY_VIRTUALENVS_CREATE: "false"
 
   - bash: |
-      echo "##vso[task.prependpath]$(Pipeline.Workspace)/.py/bin"
+      echo "##vso[task.prependpath]$PWD/.venv/bin"
       if [[ -z "$EXTRAS" ]];then
         poetry install --remove-untracked
       else
@@ -79,6 +75,3 @@ steps:
       fi
     displayName: Install Packages on *nix
     condition: ne(variables['Agent.OS'], 'Windows_NT')
-    env:
-      PIP_USER: "1"
-      POETRY_VIRTUALENVS_CREATE: "false"
