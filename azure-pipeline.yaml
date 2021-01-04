@@ -3,36 +3,36 @@ trigger:
   batch: true
   branches:
     include:
-      - "*"
+      - '*'
     exclude:
-      - "renovate/*"
+      - renovate/*
 
 jobs:
-  - job: "Test"
+  - job: Test
     pool:
-      vmImage: "$(os)"
+      vmImage: $(os)
 
     strategy:
       matrix:
         Python36-windows:
-          os: "vs2017-win2016"
-          python.version: "3.6"
-          poetry.version: ""
+          os: vs2017-win2016
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-Macos:
-          os: "macos-latest"
-          python.version: "3.6"
-          poetry.version: ""
+          os: macos-latest
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-ubuntu:
-          os: "ubuntu-latest"
-          python.version: "3.6"
-          poetry.version: ""
+          os: ubuntu-latest
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-poetry-1.1.0:
-          os: "ubuntu-latest"
-          python.version: "3.6"
-          poetry.version: "1.1.0"
+          os: ubuntu-latest
+          python.version: '3.6'
+          poetry.version: 1.1.0
 
     steps:
       - script: git config --global core.autocrlf false
@@ -42,43 +42,43 @@ jobs:
 
       - template: python/install-poetry-project.yaml
         parameters:
-          python_version: "$(python.version)"
-          poetry_version: "$(poetry.version)"
+          python_version: $(python.version)
+          poetry_version: $(poetry.version)
           extras: [pre_commit]
       - template: python/pre-commit.yaml
       - script: poetry --version
 
-  - job: "Test_without_extras"
+  - job: Test_without_extras
     pool:
-      vmImage: "$(os)"
+      vmImage: $(os)
 
     strategy:
       matrix:
         Python36-windows:
-          os: "vs2017-win2016"
-          python.version: "3.6"
-          poetry.version: ""
+          os: vs2017-win2016
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-Macos:
-          os: "macos-latest"
-          python.version: "3.6"
-          poetry.version: ""
+          os: macos-latest
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-ubuntu:
-          os: "ubuntu-latest"
-          python.version: "3.6"
-          poetry.version: ""
+          os: ubuntu-latest
+          python.version: '3.6'
+          poetry.version: ''
 
         Python36-poetry-1.1.0:
-          os: "ubuntu-latest"
-          python.version: "3.6"
-          poetry.version: "1.1.0"
+          os: ubuntu-latest
+          python.version: '3.6'
+          poetry.version: 1.1.0
 
     steps:
       - template: python/install-poetry-project.yaml
         parameters:
-          python_version: "$(python.version)"
-          poetry_version: "$(poetry.version)"
+          python_version: $(python.version)
+          poetry_version: $(poetry.version)
 
       - script: python -c "import requests"
       - script: poetry --version
